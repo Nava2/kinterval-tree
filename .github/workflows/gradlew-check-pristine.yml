@@ -1,4 +1,4 @@
-name: Check JVM
+name: Build JVM
 on: [ push ]
 jobs:
   JVM-Run-Gradle-Check:
