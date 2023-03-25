@@ -1,8 +1,10 @@
-# interval-tree
+# kinterval-tree
+
+![Build](https://github.com/Nava2/kinterval-tree/actions/gradlew-check-pristine.yml/badge.svg)
 
 ## Introduction
 
-This project consists of two classes: IntervalTree and IntervalSetTree.
+This project consists of a single class: `IntervalTree`. This is a fork of @charcuterie/interval-tree.
 
 IntervalTree is an implementation of a red-black interval-tree for half-open
 integer intervals. Details can be found either explicitly or as exercises in
@@ -10,19 +12,11 @@ integer intervals. Details can be found either explicitly or as exercises in
 It has the basic functionality one would expect from an interval-tree:
 insertion, deletion, and overlap query.
 
-IntervalSetTree is a modification of IntervalTree which handles Intervals with
-the same start and end coordinates, but which differ in some other way, for
-example, a unique name field. Rather than contain a single Interval, a Node
-in an IntervalSetTree contains a Set of Intervals, all with the same
-coordinates. The functionality is otherwise the same, except that many methods
-will return an Iterator<? extends Interval> rather than an
-Optional<? extends Interval> since multiple values can be returned.
-
 ## Why write this?
 
 The short story is that I needed a data structure to represent a collection of
 gene annotations in the manner that the IntervalSetTree does. I don't know of
-any implementation online that does this. The simpler IntervalTree is included
+any implementation online that does this. The simpler `IntervalTree` is included
 with the hope that others may find it helpful, since it
 
 1. is documented
@@ -48,30 +42,30 @@ Creating trees is done through the class constructors.
 
 Empty tree:
 
-```java
-IntervalTree<Impl> tree = new IntervalTree<>();
+```kotlin
+val tree = IntervalTree<Impl>()
 ```
 
 One-element tree:
 
-```java
-IntervalTree<Impl> tree = new IntervalTree<>(new Impl(1, 100));
+```kotlin
+val tree = IntervalTree(Impl(1, 100))
 ```
 
 ### Adding intervals
 
-```java
-tree.insert(new Impl(3, 10));
+```kotlin
+tree.insert(Impl(3, 10))
 ```
 
 This method returns a boolean if the value was added (that is, no duplicate
 found), so feel free to do something like
 
-```java
+```kotlin
 if (tree.insert(interval)) {
-  celebrate(goodTimes);
+  celebrate(goodTimes)
 } else {
-  cry();
+  cry()
 }
 ```
 
@@ -79,57 +73,54 @@ if (tree.insert(interval)) {
 
 Querying the tree is simply
 
-```java
-tree.contains(interval)
-
+```kotlin
+interval in tree
 ```
 
 If you're looking for, say, the maximum value
 
-```java
-Impl max = tree.maximum()
-               .orElseThrow(() -> new SomeTypeOfException("cant find the max!"));
+```kotlin
+val max = tree.maximum().orElseThrow { SomeTypeOfException("cant find the max!") }
 ```
 
 You can also iterate through the tree
 
-```java
-for (Impl i : tree) {
-  System.out.println(i.toString);
+```kotlin
+for (i in tree) {
+  println(i.toString())
 }
 ```
 
-```java
-tree.iterator()
-    .forEachRemaining( x -> System.out.println(x.toString()) );
+```kotlin
+tree.forEach { println(it.toString()) }
 ```
 
-```java
-Iterator<Impl> i = tree.iterator();
-while (i.hasNext()) {
-  System.out.println((i.next()).toString());
+```kotlin
+val it = tree.iterator()
+while (it.hasNext()) {
+  println(it.next().toString())
 }
 ```
 
 Overlap queries are pretty much the same.
 
-```java
+```kotlin
 tree.overlappers(someInterval)
-    .forEachRemaining( x -> System.out.println(x.toString()) );
+    .forEach { println(it.toString()) }
 ```
 
 ### Removing intervals
 
 Removing intervals is as you might guess.
 
-```java
+```kotlin
 if (tree.delete(someInterval)) {
-  System.out.println("Get outta here!");
+  println("Get outta here!")
 }
 ```
 
-```java
+```kotlin
 if (tree.deleteOverlappers(someInterval)) {
-  System.out.println("All y'all get outta here!");
+  println("All y'all get outta here!")
 }
 ```
