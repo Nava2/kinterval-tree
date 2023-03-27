@@ -41,17 +41,8 @@ group = "net.navatwo"
 archivesName.set("kinterval-tree")
 version = "0.1.0-SNAPSHOT"
 
-if (System.getenv("CI") == "true") {
-  when (val eventName = System.getenv("GITHUB_EVENT_NAME")) {
-    "release" -> {
-      version = version.toString().substringBefore("-SNAPSHOT")
-      logger.info("Deploying version: $version")
-    }
-    "push", "pull_request" -> Unit
-    else -> {
-      logger.warn("unknown event: $eventName")
-    }
-  }
+if (findProperty("RELEASE") != null) {
+  version = version.toString().substringBefore("-SNAPSHOT")
 }
 
 repositories {
@@ -93,8 +84,6 @@ signing {
   val signingKeyId: String? = readProperty("signingKeyId")
   val signingKey: String? = readProperty("signingKey")
   val signingPassword: String? = readProperty("signingPassword")
-
-  logger.error("signingKey = ${signingKey?.substring(0, 50)}")
 
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())

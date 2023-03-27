@@ -1,16 +1,27 @@
 # kinterval-tree
 
-![Build](https://github.com/Nava2/kinterval-tree/actions/workflows/gradle-check-pristine.yml/badge.svg)
+![License](https://img.shields.io/github/license/Nava2/kinterval-tree)
+
+![Build](https://img.shields.io/github/actions/workflow/status/Nava2/kinterval-tree/gradle-check-pristine.yml)
+![Release](https://img.shields.io/github/v/release/Nava2/kinterval-tree)
 
 ## Introduction
 
-This project consists of a single class: `IntervalTree`. This is a fork of @charcuterie/interval-tree.
+This project consists of a single class: `IntervalTree`. This is a fork of [@charcuterie/interval-tree](https://github.com/charcuterie/interval-tree).
 
 IntervalTree is an implementation of a red-black interval-tree for half-open
 integer intervals. Details can be found either explicitly or as exercises in
 [Introduction to Algorithms](https://mitpress.mit.edu/books/introduction-algorithms).
 It has the basic functionality one would expect from an interval-tree:
 insertion, deletion, and overlap query.
+
+## Use in your project
+
+```kotlin
+dependencies {
+    implementation("net.navatwo:kinterval-tree:0.1.0")
+}
+```
 
 ## Why write this?
 
