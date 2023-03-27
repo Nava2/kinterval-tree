@@ -1,8 +1,5 @@
 name: Build and test
-on:
-  types: pull_request
-  release:
-    types: [created]
+on: [pull_request]
 jobs:
   JVM-Run-Gradle-Check:
     runs-on: ubuntu-latest
