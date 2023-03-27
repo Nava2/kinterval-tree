@@ -118,7 +118,6 @@ publishing {
       from(components["kotlin"])
       pom {
         signing {
-          sign(publishing.publications["maven"])
           sign(configurations.archives.get())
         }
 

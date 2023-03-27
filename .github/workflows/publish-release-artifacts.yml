@@ -21,13 +21,10 @@ jobs:
       - name: Run check and sign artifacts
         uses: burrunan/gradle-cache-action@v1
         with:
-          arguments: build 
-                     check
-                        -PORG_GRADLE_PROJECT_signingKey=${SIGNING_KEY}
-                        -PORG_GRADLE_PROJECT_signingPassword=${SIGNING_PASSWORD}
+          arguments: build check
         env:
-          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
 
       - name: Publish package
         uses: burrunan/gradle-cache-action@v1
