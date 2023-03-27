@@ -135,3 +135,16 @@ if (tree.deleteOverlappers(someInterval)) {
   println("All y'all get outta here!")
 }
 ```
+
+## Development
+
+### Releasing
+
+To release, run the following (or set the env variables via `export FOO='BAR'`):
+```shell
+ORG_GRADLE_PROJECT_signingKey=${SIGNING_KEY} \
+    ORG_GRADLE_PROJECT_signingPassword=${SIGNING_PASSWORD} \
+    OSSRH_USERNAME=${OSSRH_USERNAME} \
+    OSSRH_PASSWORD=${OSSRH_PASSWORD} \
+./gradlew publishMavenPublicationToOssrhRepository
+```
