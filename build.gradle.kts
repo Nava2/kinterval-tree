@@ -41,6 +41,12 @@ group = "net.navatwo"
 archivesName.set("kinterval-tree")
 version = "0.1.0-SNAPSHOT"
 
+fun findProperty(name: String): String? {
+  val propertyName = "ORG_GRADLE_PROJECT_$name"
+  return project.findProperty(propertyName) as? String
+    ?: System.getenv("ORG_GRADLE_PROJECT_$name")
+}
+
 if (findProperty("RELEASE") != null) {
   version = version.toString().substringBefore("-SNAPSHOT")
 }
@@ -75,15 +81,9 @@ artifacts {
 }
 
 signing {
-  fun readProperty(name: String): String? {
-    val propertyName = "ORG_GRADLE_PROJECT_$name"
-    return project.findProperty(propertyName) as? String
-      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
-  }
-
-  val signingKeyId: String? = readProperty("signingKeyId")
-  val signingKey: String? = readProperty("signingKey")
-  val signingPassword: String? = readProperty("signingPassword")
+  val signingKeyId: String? = findProperty("signingKeyId")
+  val signingKey: String? = findProperty("signingKey")
+  val signingPassword: String? = findProperty("signingPassword")
 
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())
