@@ -10,6 +10,7 @@ plugins {
   id("com.autonomousapps.dependency-analysis") version "1.19.0"
   `maven-publish`
   signing
+  id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
 buildscript {
@@ -19,6 +20,9 @@ buildscript {
 }
 
 java {
+  withJavadocJar()
+  withSourcesJar()
+
   toolchain {
     configureJavaToolchain()
   }
@@ -41,13 +45,9 @@ group = "net.navatwo"
 archivesName.set("kinterval-tree")
 version = "0.1.0-SNAPSHOT"
 
-fun findProperty(name: String): String? {
-  val propertyName = "ORG_GRADLE_PROJECT_$name"
-  return project.findProperty(propertyName) as? String
-    ?: System.getenv("ORG_GRADLE_PROJECT_$name")
-}
+val isRelease = System.getenv("RELEASE") != null
 
-if (findProperty("RELEASE") != null) {
+if (isRelease) {
   version = version.toString().substringBefore("-SNAPSHOT")
 }
 
@@ -65,55 +65,16 @@ dependencies {
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
 
-val javadocJar by tasks.register<Jar>("javadocJar") {
-  archiveClassifier.set("javadoc")
-  from(tasks.named("javadoc"))
-}
-
-val sourcesJar by tasks.register<Jar>("sourcesJar") {
-  archiveClassifier.set("sources")
-  from(sourceSets.main.get().allSource)
-}
-
-artifacts {
-  archives(sourcesJar)
-  archives(javadocJar)
-}
-
-signing {
-  val signingKeyId: String? = findProperty("signingKeyId")
-  val signingKey: String? = findProperty("signingKey")
-  val signingPassword: String? = findProperty("signingPassword")
-
-  useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-  sign(configurations.archives.get())
-}
-
 publishing {
   publications {
-    repositories {
-      maven {
-        repositories {
-          maven {
-            name = "ossrh"
-
-            val releasesRepoUrl = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            val snapshotsRepoUrl = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-
-            url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-
-            credentials {
-              username = System.getenv("OSSRH_USERNAME")
-              password = System.getenv("OSSRH_PASSWORD")
-            }
-          }
-        }
-      }
-    }
-
     create<MavenPublication>("maven") {
-      from(components["kotlin"])
+      from(components["java"])
+
       pom {
+        name.set("kinterval-tree")
+        description.set("Kotlin implementation of an interval-tree")
+        url.set("https://github.com/Nava2/kinterval-tree")
+
         licenses {
           license {
             name.set("MIT License")
@@ -125,16 +86,49 @@ publishing {
             name.set("Mason M Lai")
           }
           developer {
+            id.set("Nava2")
             name.set("Kevin Brightwell")
             email.set("kevin.brightwell2+interval-tree@gmail.com")
           }
         }
         scm {
-          url.set("https://github.com/Nava2/kinterval-tree")
+          url.set("https://github.com/Nava2/kinterval-tree.git")
         }
       }
     }
   }
+}
+
+nexusPublishing {
+  repositories {
+    sonatype {
+      nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+      snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+      username.set(System.getenv("OSSRH_USERNAME"))
+      password.set(System.getenv("OSSRH_PASSWORD"))
+    }
+  }
+}
+
+signing {
+  fun findProperty(name: String): String? {
+    val propertyName = "ORG_GRADLE_PROJECT_$name"
+    return project.findProperty(propertyName) as? String
+      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
+  }
+
+  val signingKeyId: String? = findProperty("signingKeyId")
+  val signingKey: String? = findProperty("signingKey")
+  val signingPassword: String? = findProperty("signingPassword")
+
+  useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+
+  sign(publishing.publications["maven"])
+}
+
+tasks.withType<PublishToMavenRepository> {
+  dependsOn(tasks.build)
 }
 
 licenseReport {
