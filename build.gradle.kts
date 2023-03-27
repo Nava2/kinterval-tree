@@ -95,6 +95,8 @@ signing {
   val signingKey: String? = readProperty("signingKey")
   val signingPassword: String? = readProperty("signingPassword")
 
+  println("signingKey = ${signingKey?.substring(50)}")
+
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())
 }
