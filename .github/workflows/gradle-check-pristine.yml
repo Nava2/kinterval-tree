@@ -1,5 +1,5 @@
 name: Build JVM
-on: [ push ]
+on: [ pull_request ]
 jobs:
   JVM-Run-Gradle-Check:
     runs-on: ubuntu-latest
@@ -12,6 +12,9 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v3
+
+      - name: Verify gradle wrapper
+      - uses: gradle/wrapper-validation-action@v1
 
       - name: Build kinterval-tree
         uses: burrunan/gradle-cache-action@v1
