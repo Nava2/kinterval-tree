@@ -2,7 +2,6 @@ import Versions.configureJavaToolchain
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-import java.net.URI
 
 plugins {
   kotlin("jvm") version Versions.KOTLIN
@@ -84,18 +83,22 @@ artifacts {
   archives(javadocJar)
 }
 
+fun readProperty(name: String): String? {
+  val propertyName = "ORG_GRADLE_PROJECT_$name"
+  return project.findProperty(propertyName) as? String
+    ?: System.getenv("ORG_GRADLE_PROJECT_$name")
+}
+
+val tempSigningKey: String? = readProperty("signingKey")
+logger.error("signingKey = ${tempSigningKey?.substring(50)}")
+
 signing {
-  fun readProperty(name: String): String? {
-    val propertyName = "ORG_GRADLE_PROJECT_$name"
-    return project.findProperty(propertyName) as? String
-      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
-  }
 
   val signingKeyId: String? = readProperty("signingKeyId")
   val signingKey: String? = readProperty("signingKey")
   val signingPassword: String? = readProperty("signingPassword")
 
-  logger.warn("signingKey = ${signingKey?.substring(50)}")
+  logger.error("signingKey = ${signingKey?.substring(50)}")
 
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())
@@ -126,10 +129,6 @@ publishing {
     create<MavenPublication>("maven") {
       from(components["kotlin"])
       pom {
-        signing {
-          sign(configurations.archives.get())
-        }
-
         licenses {
           license {
             name.set("MIT License")
