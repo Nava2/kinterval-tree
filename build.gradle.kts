@@ -117,6 +117,11 @@ publishing {
     create<MavenPublication>("maven") {
       from(components["kotlin"])
       pom {
+        signing {
+          sign(publishing.publications["maven"])
+          sign(configurations.archives.get())
+        }
+
         licenses {
           license {
             name.set("MIT License")
