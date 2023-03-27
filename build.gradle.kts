@@ -83,22 +83,18 @@ artifacts {
   archives(javadocJar)
 }
 
-fun readProperty(name: String): String? {
-  val propertyName = "ORG_GRADLE_PROJECT_$name"
-  return project.findProperty(propertyName) as? String
-    ?: System.getenv("ORG_GRADLE_PROJECT_$name")
-}
-
-val tempSigningKey: String? = readProperty("signingKey")
-logger.error("signingKey = ${tempSigningKey?.substring(50)}")
-
 signing {
+  fun readProperty(name: String): String? {
+    val propertyName = "ORG_GRADLE_PROJECT_$name"
+    return project.findProperty(propertyName) as? String
+      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
+  }
 
   val signingKeyId: String? = readProperty("signingKeyId")
   val signingKey: String? = readProperty("signingKey")
   val signingPassword: String? = readProperty("signingPassword")
 
-  logger.error("signingKey = ${signingKey?.substring(50)}")
+  logger.error("signingKey = ${signingKey?.substring(0, 50)}")
 
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())
