@@ -1,4 +1,4 @@
-name: Build JVM
+name: Build and test
 on: [ pull_request ]
 jobs:
   JVM-Run-Gradle-Check:
