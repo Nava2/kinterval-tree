@@ -127,10 +127,6 @@ signing {
   sign(publishing.publications["maven"])
 }
 
-tasks.withType<PublishToMavenRepository> {
-  mustRunAfter(tasks.withType<Sign>())
-}
-
 licenseReport {
   generateTextReport = true
   generateHtmlReport = true
