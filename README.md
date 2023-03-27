@@ -146,5 +146,6 @@ ORG_GRADLE_PROJECT_signingKey=${SIGNING_KEY} \
     ORG_GRADLE_PROJECT_signingPassword=${SIGNING_PASSWORD} \
     OSSRH_USERNAME=${OSSRH_USERNAME} \
     OSSRH_PASSWORD=${OSSRH_PASSWORD} \
+    RELEASE=1 \
 ./gradlew publishMavenPublicationToOssrhRepository
 ```
