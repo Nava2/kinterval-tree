@@ -85,9 +85,15 @@ artifacts {
 }
 
 signing {
-  val signingKeyId: String? by project
-  val signingKey: String? by project
-  val signingPassword: String? by project
+  fun readProperty(name: String): String? {
+    return project.property("ORG_GRADLE_PROJECT_$name") as? String
+      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
+  }
+
+  val signingKeyId: String? = readProperty("signingKeyId")
+  val signingKey: String? = readProperty("signingKey")
+  val signingPassword: String? = readProperty("signingPassword")
+
   useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
   sign(configurations.archives.get())
 }
