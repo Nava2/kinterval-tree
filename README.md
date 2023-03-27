@@ -1,6 +1,6 @@
 # kinterval-tree
 
-![Build](https://github.com/Nava2/kinterval-tree/actions/workflows/gradlew-check-pristine.yml/badge.svg)
+![Build](https://github.com/Nava2/kinterval-tree/actions/workflows/gradle-check-pristine.yml/badge.svg)
 
 ## Introduction
 
