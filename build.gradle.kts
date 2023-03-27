@@ -128,7 +128,7 @@ signing {
 }
 
 tasks.withType<PublishToMavenRepository> {
-  dependsOn(tasks.build)
+  mustRunAfter(tasks.withType<Sign>())
 }
 
 licenseReport {
