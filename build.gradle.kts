@@ -86,7 +86,8 @@ artifacts {
 
 signing {
   fun readProperty(name: String): String? {
-    return project.property("ORG_GRADLE_PROJECT_$name") as? String
+    val propertyName = "ORG_GRADLE_PROJECT_$name"
+    return project.findProperty(propertyName) as? String
       ?: System.getenv("ORG_GRADLE_PROJECT_$name")
   }
 
