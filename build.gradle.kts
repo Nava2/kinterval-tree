@@ -56,7 +56,7 @@ repositories {
 }
 
 dependencies {
-  implementation("com.google.guava:guava:31.1-jre")
+  implementation("com.google.guava:guava:32.0.0-jre")
 
   testImplementation("org.assertj:assertj-core:3.24.2")
 
