@@ -60,7 +60,7 @@ dependencies {
 
   testImplementation("org.assertj:assertj-core:3.24.2")
 
-  val junitVersion = "5.9.1"
+  val junitVersion = "5.9.3"
   testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
 }
