@@ -4,11 +4,11 @@ jobs:
   JVM-Run-Gradle-Check:
     runs-on: ubuntu-latest
     steps:
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version-file: '.java-version'
 
       - uses: actions/checkout@v3
         with:

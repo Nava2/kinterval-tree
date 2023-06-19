@@ -1007,8 +1007,7 @@ class IntervalTree<T : Interval> : Iterable<T> {
      * @param max - an upper-bound Node
      */
     @VisibleForTesting
-    internal
-    fun isBST(min: Node?, max: Node?): Boolean {
+    internal fun isBST(min: Node?, max: Node?): Boolean {
       if (isNil) {
         return true // Leaves are a valid BST, trivially.
       }
@@ -1032,8 +1031,7 @@ class IntervalTree<T : Interval> : Iterable<T> {
      * @param black - the expected black-height of this subtree
      */
     @VisibleForTesting
-    internal
-    fun isBalanced(black: Int): Boolean {
+    internal fun isBalanced(black: Int): Boolean {
       if (isNil) {
         // Leaves have a black-height of zero, even though they are black.
         return black == 0

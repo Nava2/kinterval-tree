@@ -4,12 +4,15 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 plugins {
-  kotlin("jvm") version Versions.KOTLIN
-  id("io.gitlab.arturbosch.detekt") version Versions.DETEKT
-  id("com.jaredsburrows.license") version "0.9.2"
-  id("com.autonomousapps.dependency-analysis") version "1.20.0"
   `maven-publish`
   signing
+
+  kotlin("jvm") version "1.8.22"
+
+  id("io.gitlab.arturbosch.detekt") version "1.23.0"
+  id("com.jaredsburrows.license") version "0.9.2"
+
+  id("com.autonomousapps.dependency-analysis") version "1.20.0"
   id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
@@ -143,13 +146,13 @@ detekt {
   autoCorrect = true
 
   buildUponDefaultConfig = true // preconfigure defaults
-  config = files("$rootDir/config/detekt-config.yml")
+  config.from("$rootDir/config/detekt-config.yml")
 
   allRules = false // activate all available (even unstable) rules.
 }
 
 dependencies {
-  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:${Versions.DETEKT}")
+  detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0")
 }
 
 tasks.named("check") {
@@ -166,17 +169,5 @@ tasks.withType<DetektCreateBaselineTask>().configureEach {
 tasks.withType<Detekt>().configureEach {
   reports {
     html.required.set(true)
-  }
-}
-
-// See https://github.com/autonomousapps/dependency-analysis-android-gradle-plugin/issues/884
-dependencyAnalysis {
-  issues {
-    all {
-      onAny {
-        severity("fail")
-        exclude("() -> java.io.File?")
-      }
-    }
   }
 }
