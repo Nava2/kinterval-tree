@@ -3,6 +3,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
+// update plugins block, too
 val kotlinVersion = "1.8.22"
 val detektVersion = "1.23.1"
 val junitVersion = "5.9.3"
