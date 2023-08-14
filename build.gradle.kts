@@ -43,9 +43,9 @@ kotlin {
 
 group = "net.navatwo"
 archivesName.set("kinterval-tree")
-version = "0.1.0-SNAPSHOT"
+version = "0.1.1-SNAPSHOT"
 
-val isRelease = System.getenv("RELEASE") != null
+val isRelease = providers.environmentVariable("RELEASE").map { it.isNotBlank() }.getOrElse(false)
 
 if (isRelease) {
   version = version.toString().substringBefore("-SNAPSHOT")
@@ -103,26 +103,11 @@ nexusPublishing {
     sonatype {
       nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
       snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-
-      username.set(System.getenv("OSSRH_USERNAME"))
-      password.set(System.getenv("OSSRH_PASSWORD"))
     }
   }
 }
 
 signing {
-  fun findProperty(name: String): String? {
-    val propertyName = "ORG_GRADLE_PROJECT_$name"
-    return project.findProperty(propertyName) as? String
-      ?: System.getenv("ORG_GRADLE_PROJECT_$name")
-  }
-
-  val signingKeyId: String? = findProperty("signingKeyId")
-  val signingKey: String? = findProperty("signingKey")
-  val signingPassword: String? = findProperty("signingPassword")
-
-  useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-
   sign(publishing.publications["maven"])
 }
 
@@ -165,5 +150,17 @@ tasks.withType<DetektCreateBaselineTask>().configureEach {
 tasks.withType<Detekt>().configureEach {
   reports {
     html.required.set(true)
+  }
+}
+
+tasks.jar {
+  manifest {
+    attributes["Git-Commit"] = providers
+      .exec {
+        commandLine("git", "rev-parse", "HEAD")
+      }
+      .standardOutput
+      .asText
+      .map { it.trim() }
   }
 }

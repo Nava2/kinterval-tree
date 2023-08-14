@@ -141,6 +141,18 @@ if (tree.deleteOverlappers(someInterval)) {
 ### Releasing
 
 To release, run the following (or set the env variables via `export FOO='BAR'`):
+
+Setup your local `~/.gradle/gradle.properties` with the following variables, or pass as `-Pvariable=value` arguments
+
+```
+signing.keyId=<last eight digits of key id>
+signing.password=<password>
+signing.secretKeyRingFile=/Users/my_user/.gnupg/secring.gpg
+
+sonatypeUsername=<sonatype user token>
+sonatypePassword=<sonatype user token password>
+```
+
 ```shell
 # Clean the repo first to not have any old artifacts
 ./gradlew clean
@@ -152,12 +164,7 @@ To release, run the following (or set the env variables via `export FOO='BAR'`):
 git tag v0.0.0
 
 # Publish a new build - BE MINDFUL OF SHELL HISTORY PRESERVING ENVIRONMENT VARIABLES
-ORG_GRADLE_PROJECT_signingKey=${SIGNING_KEY} \                                                                                                                   [14:52:36]
-    ORG_GRADLE_PROJECT_signingPassword=${SIGNING_PASSWORD} \
-    OSSRH_USERNAME=${OSSRH_USERNAME} \
-    OSSRH_PASSWORD=${OSSRH_PASSWORD} \
-    RELEASE=1 \
-./gradlew build publishToSonatype closeAndReleaseSonatypeStagingRepository
+RELEASE=1 ./gradlew build publishToSonatype closeAndReleaseSonatypeStagingRepository
 
 # Push tags to github
 git push --tags
