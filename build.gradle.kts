@@ -11,7 +11,7 @@ plugins {
   `maven-publish`
   signing
 
-  kotlin("jvm") version "1.9.10"
+  kotlin("jvm") version "1.9.20"
 
   id("io.gitlab.arturbosch.detekt") version "1.23.2"
   id("com.jaredsburrows.license") version "0.9.3"
