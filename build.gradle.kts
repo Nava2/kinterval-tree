@@ -4,7 +4,7 @@ import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 // update plugins block, too
-val detektVersion = "1.23.1"
+val detektVersion = "1.23.2"
 val junitVersion = "5.10.0"
 
 plugins {
