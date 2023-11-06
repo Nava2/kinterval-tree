@@ -16,7 +16,7 @@ plugins {
   id("io.gitlab.arturbosch.detekt") version "1.23.3"
   id("com.jaredsburrows.license") version "0.9.3"
 
-  id("com.autonomousapps.dependency-analysis") version "1.20.0"
+  id("com.autonomousapps.dependency-analysis") version "1.25.0"
   id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
 }
 
