@@ -13,7 +13,7 @@ plugins {
 
   kotlin("jvm") version "1.9.21"
 
-  id("io.gitlab.arturbosch.detekt") version "1.23.3"
+  id("io.gitlab.arturbosch.detekt") version "1.23.4"
   id("com.jaredsburrows.license") version "0.9.3"
 
   id("com.autonomousapps.dependency-analysis") version "1.20.0"
