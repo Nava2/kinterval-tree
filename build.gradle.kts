@@ -14,7 +14,7 @@ plugins {
   kotlin("jvm") version "1.9.22"
 
   id("io.gitlab.arturbosch.detekt") version "1.23.4"
-  id("com.jaredsburrows.license") version "0.9.4"
+  id("com.jaredsburrows.license") version "0.9.7"
 
   id("com.autonomousapps.dependency-analysis") version "1.20.0"
   id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
