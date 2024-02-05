@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 
 // update plugins block, too
 val detektVersion = "1.23.5"
-val junitVersion = "5.10.1"
+val junitVersion = "5.10.2"
 
 plugins {
   `maven-publish`
