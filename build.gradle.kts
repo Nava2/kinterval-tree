@@ -17,7 +17,7 @@ plugins {
   id("com.jaredsburrows.license") version "0.9.7"
 
   id("com.autonomousapps.dependency-analysis") version "1.20.0"
-  id("io.github.gradle-nexus.publish-plugin") version "1.3.0"
+  id("io.github.gradle-nexus.publish-plugin") version "2.0.0"
 }
 
 buildscript {
